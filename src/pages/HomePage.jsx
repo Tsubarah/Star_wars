@@ -4,8 +4,6 @@ const HomePage = () => {
 	return (
 		<>
 			<h1>Welcome to Star Wars API!</h1>
-
-			<p>This link does not exist: <Link to="/not-found">Click here</Link></p>
 		</>
 	)
 }
