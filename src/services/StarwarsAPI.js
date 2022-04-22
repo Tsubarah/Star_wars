@@ -4,6 +4,9 @@ import axios from 'axios'
 const BASE_URL = "https://swapi.dev/api/"
 
 
+const sleep = async delay => new Promise(r => setTimeout(r, delay))
+
+
 const getPeople = async () => {
   const res = await axios.get(`${BASE_URL}/people`)
   return res.data

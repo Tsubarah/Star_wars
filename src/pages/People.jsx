@@ -1,40 +1,41 @@
+import { hasSelectionSupport } from '@testing-library/user-event/dist/utils'
 import { useEffect, useState } from 'react'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { Link } from 'react-router-dom'
 import StarwarsAPI from '../services/StarwarsAPI'
 
 export default function People() {
-  const [people, setPeople] = useState()
-  const [results, setResults] = useState()
+  const [data, setData] = useState()
+  const [people, setPeople] = useState([])
 
   const getPeople = async () => {
-    const data = await StarwarsAPI.getPeople()
-    setPeople(data)
+    const res = await StarwarsAPI.getPeople()
+    const characters = res.results
+    setData(res)
+    setPeople(characters)
     console.log(data)
-    console.log(data.results)
+    console.log(people)
   }
 
-  const getNames = () => {
-    const result = people.result
-    const names = result.map(character => {
-      return character.name
-    })
-
-    setResults(names)
-  }
-  
+  // const getNames = () => {
+  //   const result = data.result
+  //   const names = result.map(character => {
+  //     return character.name
+  //   })
+  //   console.log(data.result)
+  // }
 
   useEffect(() => {
     getPeople()
-
+    console.log(data)
   }, [])
 
   return (
     <>
       <h1>People</h1>
-			{people > 0 && (
+			{data > 0 && (
 				<ListGroup className="peopleList">
-					{people.map(character =>
+					{data.map(character =>
 						<ListGroup.Item
 							action
 							as={Link}
