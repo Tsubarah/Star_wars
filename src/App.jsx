@@ -3,8 +3,10 @@ import "bootswatch/dist/lux/bootstrap.min.css"
 import { Route, Routes } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import HomePage from './pages/HomePage'
-import People from './pages/People'
-import Films from './pages/Films'
+import CharactersPage from './pages/CharactersPage'
+import CharacterDetailsPage from './pages/CharacterDetailsPage'
+import FilmsPage from './pages/FilmsPage'
+import FilmPage from './pages/FilmPage'
 import NotFound from './pages/NotFound'
 import './App.css';
 
@@ -12,13 +14,14 @@ function App() {
   return (
     <div className="App">
       <Navigation />
-      <h1>LOL</h1>
 
       <Container className="py-3">
 				<Routes>
 					<Route path="/" element={<HomePage />} />
-          <Route path="/people" element={<People />} />
-          <Route path="/films" element={<Films />} />
+          <Route path="/people" element={<CharactersPage />} />
+          <Route path="/films" element={<FilmsPage />} />
+          <Route path="/films/:id" element={<FilmPage />} />
+          <Route path="/characters/:id" element={<CharacterDetailsPage />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</Container>

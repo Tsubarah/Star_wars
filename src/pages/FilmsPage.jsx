@@ -35,8 +35,8 @@ export default function Films() {
 			)}
       
       <div className="buttons d-flex justify-content-between">
-        <button type="button" class="btn btn-primary">Back</button>
-        <button type="button" class="btn btn-primary">Next</button>
+        <button type="button" className="btn btn-primary">Back</button>
+        <button type="button" className="btn btn-primary">Next</button>
       </div>
 
     </>
