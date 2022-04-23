@@ -1,11 +1,11 @@
 import Container from 'react-bootstrap/Container'
+import "bootswatch/dist/lux/bootstrap.min.css"
 import { Route, Routes } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import HomePage from './pages/HomePage'
 import People from './pages/People'
 import Films from './pages/Films'
 import NotFound from './pages/NotFound'
-import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 
 function App() {
