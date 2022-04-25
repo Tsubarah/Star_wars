@@ -1,13 +1,26 @@
 import { useEffect, useState } from 'react'
 import StarwarsAPI from '../services/StarwarsAPI'
 import { Link } from 'react-router-dom'
+import NotFound from './NotFound'
+import Loading from '../components/Loading'
 
 export default function Characters() {
   const [characters, setCharacters] = useState()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const getCharacters = async () => {
-    const data = await StarwarsAPI.getCharacters()
-    setCharacters(data)
+    setLoading(true)
+    
+    try {
+      const data = await StarwarsAPI.getCharacters()
+      setCharacters(data)
+      setError(null)
+      setLoading(false)
+
+    } catch (err) {
+      setError(true)
+    }
   }
 
   useEffect(() => {
@@ -17,9 +30,14 @@ export default function Characters() {
 
   return (
     <>
-      <h1>Characters</h1>
-      <div className='d-flex flex-wrap justify-content-center'>
 
+      {loading && <Loading />}
+
+      {error && <NotFound />}
+
+      <h1>Characters</h1>
+
+      <div className='d-flex flex-wrap justify-content-center'>
       {characters && 
           characters.results.map((character, index) =>
             	<div 

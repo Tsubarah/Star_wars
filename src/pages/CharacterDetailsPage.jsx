@@ -3,19 +3,24 @@ import { useParams, Link } from 'react-router-dom'
 import StarwarsAPI from '../services/StarwarsAPI'
 import { getIdFromUrl } from '../helpers'
 import NotFound from '../pages/NotFound'
+import Loading from '../components/Loading'
 
 
 export default function CharacterDetailsPage() {
   const [character, setCharacter] = useState()
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { id } = useParams()
 
   const getCharacter = async () => {
+    setLoading(true)
+
     try {
       const data = await StarwarsAPI.getCharacter(id)
       setCharacter(data)
       console.log(data)
       setError(null)
+      setLoading(false)
 
     } catch (err) {
       setError(true)
@@ -30,6 +35,9 @@ export default function CharacterDetailsPage() {
 
   return (
     <>
+
+      {loading && <Loading />}
+
       {error && <NotFound />}
 
       {character &&  

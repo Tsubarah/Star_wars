@@ -8,8 +8,13 @@ const sleep = async delay => new Promise(r => setTimeout(r, delay))
 
 
 const getCharacters = async () => {
-  const res = await axios.get(`${BASE_URL}/people`)
-  return res.data
+  try {
+    const res = await axios.get(`${BASE_URL}/people`)
+    return res.data
+
+  } catch (err) {
+    throw err.message
+  }
 }
 
 
@@ -24,13 +29,23 @@ const getCharacter = async (id) => {
 }
 
 const getFilms = async () => {
-  const res = await axios.get(`${BASE_URL}/films`)
-  return res.data
+  try {
+    const res = await axios.get(`${BASE_URL}/films`)
+    return res.data
+
+  } catch (err) {
+    throw err.message
+  }
 }
 
 const getFilm = async (id) => {
-  const res = await axios.get(`${BASE_URL}/films/${id}`)
-  return res.data
+  try {
+    const res = await axios.get(`${BASE_URL}/films/${id}`)
+    return res.data
+
+  } catch (err) {
+    throw err.message
+  }
 }
 
 export default {
