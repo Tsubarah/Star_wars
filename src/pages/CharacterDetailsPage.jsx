@@ -9,22 +9,15 @@ import Loading from '../components/Loading'
 export default function CharacterDetailsPage() {
   const [character, setCharacter] = useState()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
   const { id } = useParams()
 
   const getCharacter = async () => {
     setLoading(true)
 
-    try {
-      const data = await StarwarsAPI.getCharacter(id)
-      setCharacter(data)
-      console.log(data)
-      setError(null)
-      setLoading(false)
-
-    } catch (err) {
-      setError(true)
-    }
+    const data = await StarwarsAPI.getCharacter(id)
+    setCharacter(data)
+    setLoading(false)
+    
   }
 
   
@@ -38,11 +31,10 @@ export default function CharacterDetailsPage() {
 
       {loading && <Loading />}
 
-      {error && <NotFound />}
+      {character === 404 && <NotFound />}
 
-      {character &&  
+      {typeof character === 'object' &&  
         <div className="card text-white bg-primary mb-3">
-          <h1>Character Details</h1>
           <div className="card-header"><h2>{character.name}</h2></div>
             <div className="card-body">
               <h4 className="card-title">Attributes</h4>
@@ -56,11 +48,11 @@ export default function CharacterDetailsPage() {
               
               <h4 className="pt-4">Films</h4>
               <div className="list-group">
-                {character.films.map((film, index) => 
+                {character.films && character.films.map((film, index) => 
                   <Link 
                   className="list-group-item col-lg-3 m-auto"
-                    to={`/films/${getIdFromUrl(film)}`} 
-                    key={index}
+                  to={`/films/${getIdFromUrl(film)}`} 
+                  key={index}
                   >
                     Film {getIdFromUrl(film)}
                   </Link>

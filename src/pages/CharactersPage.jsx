@@ -1,39 +1,39 @@
 import { useEffect, useState } from 'react'
 import StarwarsAPI from '../services/StarwarsAPI'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import NotFound from './NotFound'
 import Loading from '../components/Loading'
 
 export default function Characters() {
   const [characters, setCharacters] = useState()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
+  const [page, setPage] = useState(1)
+  const [searchParams, setSearchparams] = useSearchParams()
+  
   const getCharacters = async () => {
     setLoading(true)
-    
-    try {
-      const data = await StarwarsAPI.getCharacters()
-      setCharacters(data)
-      setError(null)
-      setLoading(false)
+    setCharacters(null)
 
-    } catch (err) {
-      setError(true)
-    }
+    const data = await StarwarsAPI.getCharacters(page)
+    setCharacters(data)
+    setLoading(false)
+    console.log(characters)
+    
+    setSearchparams({ page: page })
+
   }
 
   useEffect(() => {
     getCharacters()
-    console.log(characters)
-  }, [])
+    
+  }, [page])
 
   return (
     <>
 
       {loading && <Loading />}
 
-      {error && <NotFound />}
+      {characters === 404 && <NotFound />}
 
       <h1>Characters</h1>
 
@@ -42,9 +42,9 @@ export default function Characters() {
           characters.results.map((character, index) =>
             	<div 
               key={index} 
-              className="card border-secondary text-white bg-primary m-3 col-md-3 col-sm-4 col-xs-12"
+              className="card border-secondary text-white bg-primary m-3 col-md-2 col-sm-4 col-xs-12"
             >
-              <div className="card-header d-flex align-items-center">
+              <div className="card-header d-flex justify-content-center">
                 {character.name}
               </div>
               <div className="card-body">
@@ -58,8 +58,19 @@ export default function Characters() {
       </div>
       
       <div className="buttons d-flex justify-content-between">
-        <button type="button" className="btn btn-primary">Back</button>
-        <button type="button" className="btn btn-primary">Next</button>
+        <button 
+          disabled={page === 1}
+          type="button" 
+          className="btn btn-primary"
+          onClick={() => setPage(prevValue => prevValue - 1)}
+        >Back</button>
+
+        <button 
+          // disabled={characters.results < 9}
+          type="button" 
+          className="btn btn-primary"
+          onClick={() => setPage(prevValue => prevValue + 1)}
+        >Next</button>
       </div>
 
     </>

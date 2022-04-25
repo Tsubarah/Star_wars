@@ -35,8 +35,6 @@ export default function Films() {
 
       {error && <NotFound />}
 
-      <h1>Films</h1>
-
       {films && (
 				<div className="list-group">
 					{films.results.map((film, index) =>

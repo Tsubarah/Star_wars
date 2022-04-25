@@ -7,13 +7,13 @@ const BASE_URL = "https://swapi.dev/api"
 const sleep = async delay => new Promise(r => setTimeout(r, delay))
 
 
-const getCharacters = async () => {
+const getCharacters = async (page) => {
   try {
-    const res = await axios.get(`${BASE_URL}/people`)
+    const res = await axios.get(`${BASE_URL}/people/?page=${page}`)
     return res.data
 
   } catch (err) {
-    throw err.message
+    return err.response.status
   }
 }
 
@@ -24,7 +24,7 @@ const getCharacter = async (id) => {
     return res.data
 
   } catch (err) {
-    throw err.message
+    return err.response.status
   }
 }
 
