@@ -14,18 +14,28 @@ const getCharacters = async () => {
 
 
 const getCharacter = async (id) => {
-  const res = await axios.get(`${BASE_URL}/people/${id}`)
-  return res.data
-}
+  try {
+    const res = await axios.get(`${BASE_URL}/people/${id}`)
+    return res.data
 
+  } catch (err) {
+    throw err.message
+  }
+}
 
 const getFilms = async () => {
   const res = await axios.get(`${BASE_URL}/films`)
   return res.data
 }
 
+const getFilm = async (id) => {
+  const res = await axios.get(`${BASE_URL}/films/${id}`)
+  return res.data
+}
+
 export default {
   getCharacters,
   getCharacter,
-  getFilms
+  getFilms,
+  getFilm
 }

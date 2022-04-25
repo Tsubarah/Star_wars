@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage'
 import CharactersPage from './pages/CharactersPage'
 import CharacterDetailsPage from './pages/CharacterDetailsPage'
 import FilmsPage from './pages/FilmsPage'
-import FilmPage from './pages/FilmPage'
+import FilmDetailsPage from './pages/FilmDetailsPage'
 import NotFound from './pages/NotFound'
 import './App.css';
 
@@ -20,7 +20,7 @@ function App() {
 					<Route path="/" element={<HomePage />} />
           <Route path="/people" element={<CharactersPage />} />
           <Route path="/films" element={<FilmsPage />} />
-          <Route path="/films/:id" element={<FilmPage />} />
+          <Route path="/films/:id" element={<FilmDetailsPage />} />
           <Route path="/characters/:id" element={<CharacterDetailsPage />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
