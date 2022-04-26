@@ -39,9 +39,9 @@ export default function Characters() {
       <div className='d-flex flex-wrap justify-content-center'>
         {!loading && 
             characters.results.map((character, index) => (
-                <div 
-                key={index} 
-                className="card border-secondary text-white bg-primary m-3 col-md-2 col-sm-4 col-xs-12"
+              <div 
+              key={index} 
+              className="card border-secondary text-white bg-primary m-3 col-md-2 col-sm-4 col-xs-12"
               >
                 <div className="card-header d-flex justify-content-center">
                   {character.name}
@@ -53,25 +53,26 @@ export default function Characters() {
                   <Link to={`/characters/${index + 1}`} type="button" className="btn btn-light pt-1 pb-1">Read More</Link>
                 </div>
               </div>
-            ))}
-      </div>
-      
-      <div className="buttons d-flex justify-content-between">
-        <button 
-          disabled={page === 1}
-          type="button" 
-          className="btn btn-primary"
-          onClick={() => setPage(prevValue => prevValue - 1)}
-        >Back</button>
-
-        <button 
-          disabled={characters.results.length < 9}
-          type="button" 
-          className="btn btn-primary"
-          onClick={() => setPage(prevValue => prevValue + 1)}
-        >Next</button>
+            ))
+        }
       </div>
 
+            {!loading && 
+            <div className="buttons d-flex justify-content-between">
+              <button 
+                disabled={page === 1}
+                type="button" 
+                className="btn btn-primary border-secondary"
+                onClick={() => setPage(prevValue => prevValue - 1)}
+              >Back</button>
+              
+              <button 
+                disabled={characters.results.length < 9}
+                type="button" 
+                className="btn btn-primary border-secondary"
+                onClick={() => setPage(prevValue => prevValue + 1)}
+              >Next</button>
+            </div>}
     </>
   )
 }
