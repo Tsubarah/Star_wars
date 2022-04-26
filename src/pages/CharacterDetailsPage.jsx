@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import StarwarsAPI from '../services/StarwarsAPI'
 import { getIdFromUrl } from '../helpers'
 import NotFound from '../pages/NotFound'
@@ -8,8 +8,9 @@ import Loading from '../components/Loading'
 
 export default function CharacterDetailsPage() {
   const [character, setCharacter] = useState()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const getCharacter = async () => {
     setLoading(true)
@@ -33,7 +34,7 @@ export default function CharacterDetailsPage() {
 
       {character === 404 && <NotFound />}
 
-      {typeof character === 'object' &&  
+      {!loading &&  
         <div className="card text-white bg-primary mb-3">
           <div className="card-header"><h2>{character.name}</h2></div>
             <div className="card-body">
@@ -59,7 +60,17 @@ export default function CharacterDetailsPage() {
                 )}
               </div>
             </div>
-          </div> 
+            <div className='m-2 pt-4'>
+							<button
+								type='button'
+								className='btn btn-dark'
+								onClick={() => navigate(-1)}
+							>
+								Back
+							</button>
+						</div>
+        </div> 
+        
       }
       
     </>

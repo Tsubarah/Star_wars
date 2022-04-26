@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import StarwarsAPI from "../services/StarwarsAPI"
 import { getIdFromUrl } from "../helpers"
 import NotFound from "./NotFound"
@@ -10,6 +10,7 @@ export default function FilmDetailsPage() {
   const [film, setFilm] = useState()
   const [loading, setLoading] = useState(false)
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const getFilm = async () => {
     setLoading(true)
@@ -34,10 +35,9 @@ export default function FilmDetailsPage() {
       {film && 
         <div key={id} className="card border-secondary text-white bg-primary m-3 col-md-3 col-sm-4 col-xs-12">
           <div className="card-header d-flex align-items-center">
-            {film.title}
+            <h4 className="m-auto">{film.title}</h4>
           </div>
           <div className="card-body">
-            <h4>Attributes</h4>
             <p className="card-text">Episode: {film.episode_id}</p>
             <p className="card-text">Director: {film.director}</p>
             <p className="card-text">Producer: {film.producer}</p>
@@ -58,6 +58,15 @@ export default function FilmDetailsPage() {
           </div>
         </div>
       }
+    </div>
+    <div className='m-2 pt-4'>
+      <button
+        type='button'
+        className='btn btn-dark'
+        onClick={() => navigate(-1)}
+      >
+        Back
+      </button>
     </div>
     
     </>

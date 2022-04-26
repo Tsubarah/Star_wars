@@ -38,7 +38,7 @@ export default function Films() {
         {films && 
             films.results.map(film => (
               <div key={film.episode_id} className="card text-white bg-primary mb-3">
-                <div className="card-header">{film.title}</div>
+                <div className="card-header"><h4>{film.title}</h4></div>
                 <div className="card-body">
                   <p className="card-text">Episode: {film.episode_id}</p>
                   <p className="card-text">Released: {film.release_date}</p>
