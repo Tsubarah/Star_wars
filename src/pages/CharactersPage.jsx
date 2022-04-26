@@ -12,7 +12,7 @@ export default function Characters() {
   
   const getCharacters = async () => {
     setLoading(true)
-    setCharacters(null)
+    // setCharacters(null)
 
     const data = await StarwarsAPI.getCharacters(page)
     setCharacters(data)

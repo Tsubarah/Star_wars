@@ -1,39 +1,37 @@
 import { useState, useEffect } from 'react'
 import StarwarsAPI from "../services/StarwarsAPI"
+import { useSearchParams } from 'react-router-dom'
 import NotFound from './NotFound'
 import Loading from '../components/Loading'
 
 export default function Films() {
   const [films, setFilms] = useState()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [page, setPage] = useState(1)
+  const [searchParams, setSearchParams] = useSearchParams()
   
 
   const getFilms = async () => {
     setLoading(true)
 
-    try {
-      const data = await StarwarsAPI.getFilms()
-      setFilms(data)
-      setError(null)
-      setLoading(false)
+    const data = await StarwarsAPI.getFilms()
+    setFilms(data)
+    setLoading(false)
 
-    } catch (err) {
-      setError(true)
-    }
+    setSearchParams({ page: page })
   }
 
   useEffect(() => {
     getFilms()
 
-  }, [])
+  }, [page])
 
   return (
     <>
 
       {loading && <Loading />}
 
-      {error && <NotFound />}
+      {films === 404 && <NotFound />}
 
       {films && (
 				<div className="list-group">

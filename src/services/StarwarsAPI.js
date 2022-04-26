@@ -34,7 +34,7 @@ const getFilms = async () => {
     return res.data
 
   } catch (err) {
-    throw err.message
+    return err.response.status
   }
 }
 
@@ -44,7 +44,7 @@ const getFilm = async (id) => {
     return res.data
 
   } catch (err) {
-    throw err.message
+    return err.response.status
   }
 }
 
