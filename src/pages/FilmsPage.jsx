@@ -45,7 +45,7 @@ export default function Films() {
                   <p className="card-text">{film.characters.length} characters</p>
 
                   <Link to={`/films/${getIdFromUrl(film.url)}`}>
-									<button type='button' className='btn btn-primary'>
+									<button type='button' className='btn btn-dark pt-1 pb-1 pr-2 pl-2'>
 										Read more
 									</button>
 								</Link>
