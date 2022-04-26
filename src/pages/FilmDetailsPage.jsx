@@ -9,22 +9,14 @@ import Loading from "../components/Loading"
 export default function FilmDetailsPage() {
   const [film, setFilm] = useState()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
   const { id } = useParams()
 
   const getFilm = async () => {
     setLoading(true)
 
-    try {
-      const data = await StarwarsAPI.getFilm(id)
-      setFilm(data)
-      console.log(data)
-      setError(null)
-      setLoading(false)
-
-    } catch (err) {
-      setError(true)
-    }
+    const data = await StarwarsAPI.getFilm(id)
+    setFilm(data)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -36,7 +28,7 @@ export default function FilmDetailsPage() {
 
     {loading && <Loading />}
 
-    {error && <NotFound />}
+    {film === 404 && <NotFound />}
 
     <div className='d-flex flex-wrap justify-content-center'>
       {film && 

@@ -5,26 +5,25 @@ import NotFound from './NotFound'
 import Loading from '../components/Loading'
 
 export default function Characters() {
-  const [characters, setCharacters] = useState()
-  const [loading, setLoading] = useState(false)
+  const [characters, setCharacters] = useState([])
+  const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [searchParams, setSearchparams] = useSearchParams()
   
-  const getCharacters = async () => {
+  const fetchCharacters = async () => {
     setLoading(true)
-    // setCharacters(null)
 
     const data = await StarwarsAPI.getCharacters(page)
     setCharacters(data)
     setLoading(false)
-    console.log(characters)
     
     setSearchparams({ page: page })
 
   }
 
   useEffect(() => {
-    getCharacters()
+    fetchCharacters()
+    console.log(characters)
     
   }, [page])
 
@@ -38,23 +37,23 @@ export default function Characters() {
       <h1>Characters</h1>
 
       <div className='d-flex flex-wrap justify-content-center'>
-      {characters && 
-          characters.results.map((character, index) =>
-            	<div 
-              key={index} 
-              className="card border-secondary text-white bg-primary m-3 col-md-2 col-sm-4 col-xs-12"
-            >
-              <div className="card-header d-flex justify-content-center">
-                {character.name}
+        {!loading && 
+            characters.results.map((character, index) => (
+                <div 
+                key={index} 
+                className="card border-secondary text-white bg-primary m-3 col-md-2 col-sm-4 col-xs-12"
+              >
+                <div className="card-header d-flex justify-content-center">
+                  {character.name}
+                </div>
+                <div className="card-body">
+                  <p className="card-text">Gender: {character.gender}</p>
+                  <p className="card-text">Born: {character.birth_year}</p>
+                  <p className="card-text">In: {character.films.length} films</p>
+                  <Link to={`/characters/${index + 1}`} type="button" className="btn btn-light pt-1 pb-1">Read More</Link>
+                </div>
               </div>
-              <div className="card-body">
-                <p className="card-text">Gender: {character.gender}</p>
-                <p className="card-text">Born: {character.birth_year}</p>
-                <p className="card-text">In: {character.films.length} films</p>
-                <Link to={`/characters/${index + 1}`} type="button" className="btn btn-light pt-1 pb-1">Read More</Link>
-              </div>
-            </div>
-			)}
+            ))}
       </div>
       
       <div className="buttons d-flex justify-content-between">
@@ -66,7 +65,7 @@ export default function Characters() {
         >Back</button>
 
         <button 
-          // disabled={characters.results < 9}
+          disabled={characters.results.length < 9}
           type="button" 
           className="btn btn-primary"
           onClick={() => setPage(prevValue => prevValue + 1)}
