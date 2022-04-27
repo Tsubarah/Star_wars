@@ -70,7 +70,7 @@ export default function Characters() {
           >Back</button>
           
           <button 
-            disabled={characters.results.length < 9}
+            disabled={!characters.next}
             type="button" 
             className="btn btn-primary border-secondary"
             onClick={() => setPage(prevValue => prevValue + 1)}
