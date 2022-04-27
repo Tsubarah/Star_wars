@@ -23,7 +23,7 @@ export default function CharacterDetailsPage() {
 
   
   useEffect(() => {
-    getCharacter(id)
+    getCharacter()
 
   }, [id])
 
