@@ -63,7 +63,7 @@ export default function Characters() {
         {!loading && 
         <div className="buttons d-flex justify-content-between">
           <button 
-            disabled={page === 1}
+            disabled={!characters.previous}
             type="button" 
             className="btn btn-primary border-secondary"
             onClick={() => setPage(prevValue => prevValue - 1)}

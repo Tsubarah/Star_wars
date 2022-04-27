@@ -51,7 +51,23 @@ export default function Films() {
 								</Link>
                 </div>
               </div>
+              
             ))}
+        <div className="buttons d-flex justify-content-between">
+          <button 
+            disabled={!films.previous}
+            type="button" 
+            className="btn btn-primary border-secondary"
+            onClick={() => setPage(prevValue => prevValue - 1)}
+          >Back</button>
+          
+          <button 
+            disabled={!films.next}
+            type="button" 
+            className="btn btn-primary border-secondary"
+            onClick={() => setPage(prevValue => prevValue + 1)}
+          >Next</button>
+        </div>
       </div>
     </>
   )
