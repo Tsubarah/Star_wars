@@ -29,7 +29,7 @@ const getCharacter = async (id) => {
 }
 
 const getFilms = async () => {
-    const res = await axios.get(`${BASE_URL}/filmss`)
+    const res = await axios.get(`${BASE_URL}/films`)
     return res.data
 }
 
