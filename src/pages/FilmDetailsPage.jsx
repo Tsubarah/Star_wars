@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback,useEffect, useState } from "react"
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import StarwarsAPI from "../services/StarwarsAPI"
 import { getIdFromUrl } from "../helpers"
@@ -12,17 +12,17 @@ export default function FilmDetailsPage() {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const getFilm = async () => {
+  const getFilm = useCallback(async () => {
     setLoading(true)
 
     const data = await StarwarsAPI.getFilm(id)
     setFilm(data)
     setLoading(false)
-  }
+  }, [id])
 
   useEffect(() => {
     getFilm(id)
-  }, [id])
+  }, [getFilm, id])
   
   return (
     <>

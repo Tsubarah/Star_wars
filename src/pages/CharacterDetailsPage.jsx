@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import StarwarsAPI from '../services/StarwarsAPI'
 import { getIdFromUrl } from '../helpers'
@@ -12,20 +12,19 @@ export default function CharacterDetailsPage() {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const getCharacter = async () => {
+  const getCharacter = useCallback(async () => {
     setLoading(true)
 
     const data = await StarwarsAPI.getCharacter(id)
     setCharacter(data)
     setLoading(false)
     
-  }
+  }, [id])
 
-  
   useEffect(() => {
     getCharacter()
 
-  }, [id])
+  }, [getCharacter, id])
 
   return (
     <>
