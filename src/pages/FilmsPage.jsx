@@ -11,17 +11,16 @@ export default function Films() {
   const [page, setPage] = useState(1)
   
 
-  const fetchFilms = async () => {
-    setLoading(true)
-
-    const data = await StarwarsAPI.getFilms(page)
-    setFilms(data)
-    setLoading(false)
-    console.log(data)
-
-  }
-
   useEffect(() => {
+    const fetchFilms = async () => {
+      setLoading(true)
+  
+      const data = await StarwarsAPI.getFilms(page)
+      setFilms(data)
+      setLoading(false)
+      console.log(data)
+  
+    }
     fetchFilms()
 
   }, [page])
