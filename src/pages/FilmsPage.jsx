@@ -18,7 +18,6 @@ export default function Films() {
       const data = await StarwarsAPI.getFilms(page)
       setFilms(data)
       setLoading(false)
-      console.log(data)
   
     }
     fetchFilms()
