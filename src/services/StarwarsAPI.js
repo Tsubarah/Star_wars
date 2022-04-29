@@ -4,7 +4,7 @@ import axios from 'axios'
 const BASE_URL = "https://swapi.dev/api"
 
 
-const sleep = async delay => new Promise(r => setTimeout(r, delay))
+// const sleep = async delay => new Promise(r => setTimeout(r, delay))
 
 
 const getCharacters = async (page) => {
@@ -48,9 +48,11 @@ const getFilm = async (id) => {
   }
 }
 
-export default {
+const exportedObjects = {
   getCharacters,
   getCharacter,
   getFilms,
   getFilm
-}
+};
+
+export default exportedObjects
