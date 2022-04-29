@@ -9,17 +9,25 @@ export default function Films() {
   const [films, setFilms] = useState('')
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
+  const [error, setError] = useState(null)
   
 
   useEffect(() => {
     const fetchFilms = async () => {
       setLoading(true)
-  
-      const data = await StarwarsAPI.getFilms(page)
-      setFilms(data)
-      setLoading(false)
-  
+      
+      try {
+        const data = await StarwarsAPI.getFilms(page)
+        setFilms(data)
+        setLoading(false)
+        setError(null)
+      } catch (err) {
+        setLoading(false)
+        setError(err)
+        console.log(err.message)
+      }
     }
+
     fetchFilms()
 
   }, [page])
@@ -27,12 +35,12 @@ export default function Films() {
   return (
     <>
 
-      {loading && <Loading />}
+      {loading && !error && <Loading />}
 
-      {films === 404 && <NotFound />}
+      {error && <NotFound />}
 
       <div className='d-flex flex-wrap justify-content-center list-group'>
-        {films && 
+        {films &&
             films.results.map(film => (
               <div key={film.episode_id} className="card text-white bg-primary mb-3">
                 <div className="card-header"><h4>{film.title}</h4></div>
@@ -50,6 +58,7 @@ export default function Films() {
               </div>
               
             ))}
+      {!error && 
         <div className="buttons d-flex justify-content-between">
           <button 
             disabled={!films.previous}
@@ -65,6 +74,7 @@ export default function Films() {
             onClick={() => setPage(prevValue => prevValue + 1)}
           >Next</button>
         </div>
+      }
       </div>
     </>
   )

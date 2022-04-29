@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import StarwarsAPI from '../services/StarwarsAPI'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import NotFound from './NotFound'
 import Loading from '../components/Loading'
 import { getIdFromUrl } from '../helpers'
@@ -9,7 +9,6 @@ export default function Characters() {
   const [characters, setCharacters] = useState([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
-  const [searchParams, setSearchparams] = useSearchParams()
   
   const fetchCharacters = useCallback(async () => {
     setLoading(true)
@@ -18,13 +17,12 @@ export default function Characters() {
     setCharacters(data)
     setLoading(false)
     
-    setSearchparams({ page: page })
-  }, [page, setSearchparams])
+  }, [page])
 
   useEffect(() => {
     fetchCharacters()
     
-  }, [searchParams, fetchCharacters, page])
+  }, [fetchCharacters, page])
 
   return (
     <>
@@ -32,8 +30,6 @@ export default function Characters() {
       {loading && <Loading />}
 
       {characters === 404 && <NotFound />}
-
-      <h1>Characters</h1>
 
       <div className='d-flex flex-wrap justify-content-center'>
         {!loading && 

@@ -29,13 +29,8 @@ const getCharacter = async (id) => {
 }
 
 const getFilms = async () => {
-  try {
-    const res = await axios.get(`${BASE_URL}/films`)
+    const res = await axios.get(`${BASE_URL}/filmss`)
     return res.data
-
-  } catch (err) {
-    return err.response.status
-  }
 }
 
 const getFilm = async (id) => {
