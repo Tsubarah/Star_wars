@@ -56,26 +56,23 @@ export default function Characters() {
                 </Link>
               </div>
             </div>
-          ))
-        }
+          ))}
       </div>
-
-        {!loading && 
-        <div className="buttons d-flex justify-content-between">
-          <button 
-            disabled={!characters.previous}
-            type="button" 
-            className="btn btn-primary border-secondary"
-            onClick={() => setPage(prevValue => prevValue - 1)}
-          >Back</button>
+      <div className="buttons d-flex justify-content-between">
+        <button 
+          disabled={page === 1}
+          type="button" 
+          className="btn btn-primary border-secondary"
+          onClick={() => setPage(prevValue => prevValue - 1)}
+        >Back</button>
           
-          <button 
-            disabled={!characters.next}
-            type="button" 
-            className="btn btn-primary border-secondary"
-            onClick={() => setPage(prevValue => prevValue + 1)}
-          >Next</button>
-        </div>}
+         <button 
+          disabled={!characters.next}
+          type="button" 
+          className="btn btn-primary border-secondary"
+          onClick={() => setPage(prevValue => prevValue + 1)}
+        >Next</button>
+      </div>
     </>
   )
 }

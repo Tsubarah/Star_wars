@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import StarwarsAPI from "../services/StarwarsAPI"
-import { useSearchParams, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import NotFound from './NotFound'
 import Loading from '../components/Loading'
 import { getIdFromUrl } from '../helpers'
@@ -9,7 +9,6 @@ export default function Films() {
   const [films, setFilms] = useState('')
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
-  const [searchParams, setSearchParams] = useSearchParams()
   
 
   const fetchFilms = async () => {
