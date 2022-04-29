@@ -21,6 +21,7 @@ export default function Films() {
         setFilms(data)
         setLoading(false)
         setError(null)
+        
       } catch (err) {
         setLoading(false)
         setError(err)

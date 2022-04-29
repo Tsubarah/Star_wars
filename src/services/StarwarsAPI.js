@@ -8,24 +8,13 @@ const BASE_URL = "https://swapi.dev/api"
 
 
 const getCharacters = async (page) => {
-  try {
     const res = await axios.get(`${BASE_URL}/people/?page=${page}`)
     return res.data
-
-  } catch (err) {
-    return err.response.status
-  }
 }
 
-
 const getCharacter = async (id) => {
-  try {
     const res = await axios.get(`${BASE_URL}/people/${id}`)
     return res.data
-
-  } catch (err) {
-    return err.response.status
-  }
 }
 
 const getFilms = async () => {
@@ -34,13 +23,8 @@ const getFilms = async () => {
 }
 
 const getFilm = async (id) => {
-  try {
     const res = await axios.get(`${BASE_URL}/films/${id}`)
     return res.data
-
-  } catch (err) {
-    return err.response.status
-  }
 }
 
 const exportedObjects = {

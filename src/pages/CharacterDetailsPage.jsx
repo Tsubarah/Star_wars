@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import StarwarsAPI from '../services/StarwarsAPI'
 import { getIdFromUrl } from '../helpers'
@@ -9,31 +9,38 @@ import Loading from '../components/Loading'
 export default function CharacterDetailsPage() {
   const [character, setCharacter] = useState()
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const getCharacter = useCallback(async () => {
-    setLoading(true)
-
-    const data = await StarwarsAPI.getCharacter(id)
-    setCharacter(data)
-    setLoading(false)
-    
-  }, [id])
 
   useEffect(() => {
+    const getCharacter = async () => {
+      setLoading(true)
+  
+      try {
+        const data = await StarwarsAPI.getCharacter(id)
+        setCharacter(data)
+        setLoading(false)
+
+      } catch (err) {
+        setLoading(false)
+        setError(err)
+        console.log(err.message)
+      }
+    }
     getCharacter()
 
-  }, [getCharacter, id])
+  }, [id])
 
   return (
     <>
 
-      {loading && <Loading />}
+      {loading && !error && <Loading />}
 
-      {character === 404 && <NotFound />}
+      {error && <NotFound />}
 
-      {!loading &&  
+      {!loading && !error && 
         <div className="card text-white bg-primary mb-3">
           <div className="card-header"><h2>{character.name}</h2></div>
             <div className="card-body">
@@ -59,20 +66,17 @@ export default function CharacterDetailsPage() {
                 )}
               </div>
             </div>
-            <div className='m-2 pt-4'>
-							<button
-								type='button'
-								className='btn btn-dark'
-								onClick={() => navigate(-1)}
-							>
-								Back
-							</button>
-						</div>
         </div> 
-        
       }
-      
+        <div className='m-2 pt-4'>
+          <button
+            type='button'
+            className='btn btn-dark'
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+        </div>
     </>
-
   )
 }

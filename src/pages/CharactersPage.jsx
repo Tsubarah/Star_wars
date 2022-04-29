@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import StarwarsAPI from '../services/StarwarsAPI'
 import { Link } from 'react-router-dom'
 import NotFound from './NotFound'
@@ -9,30 +9,40 @@ export default function Characters() {
   const [characters, setCharacters] = useState([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
+  const [error, setError] = useState(null)
   
-  const fetchCharacters = useCallback(async () => {
-    setLoading(true)
 
-    const data = await StarwarsAPI.getCharacters(page)
-    setCharacters(data)
-    setLoading(false)
-    
-  }, [page])
 
   useEffect(() => {
+    const fetchCharacters = async () => {
+      setLoading(true)
+      
+      try {
+        const data = await StarwarsAPI.getCharacters(page)
+        setCharacters(data)
+        setLoading(false)
+        setError(null)
+
+      } catch (err) {
+        setLoading(false)
+        setError(err)
+        console.log(err.message)
+      }
+    }
+
     fetchCharacters()
     
-  }, [fetchCharacters, page])
+  }, [page])
 
   return (
     <>
 
-      {loading && <Loading />}
+      {loading && !error && <Loading />}
 
-      {characters === 404 && <NotFound />}
+      {error && <NotFound />}
 
       <div className='d-flex flex-wrap justify-content-center'>
-        {!loading && 
+        {!loading && !error &&
           characters.results.map((character, index) => (
             <div 
             key={index} 
@@ -54,21 +64,24 @@ export default function Characters() {
             </div>
           ))}
       </div>
-      <div className="buttons d-flex justify-content-between">
-        <button 
-          disabled={page === 1}
-          type="button" 
-          className="btn btn-primary border-secondary"
-          onClick={() => setPage(prevValue => prevValue - 1)}
-        >Back</button>
-          
-         <button 
-          disabled={!characters.next}
-          type="button" 
-          className="btn btn-primary border-secondary"
-          onClick={() => setPage(prevValue => prevValue + 1)}
-        >Next</button>
-      </div>
+
+      {!loading && !error &&
+        <div className="buttons d-flex justify-content-between">
+          <button 
+            disabled={page === 1}
+            type="button" 
+            className="btn btn-primary border-secondary"
+            onClick={() => setPage(prevValue => prevValue - 1)}
+          >Back</button>
+            
+          <button 
+            disabled={!characters.next}
+            type="button" 
+            className="btn btn-primary border-secondary"
+            onClick={() => setPage(prevValue => prevValue + 1)}
+          >Next</button>
+        </div>
+      }
     </>
   )
 }

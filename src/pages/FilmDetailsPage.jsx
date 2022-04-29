@@ -1,4 +1,4 @@
-import { useCallback,useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import StarwarsAPI from "../services/StarwarsAPI"
 import { getIdFromUrl } from "../helpers"
@@ -9,27 +9,37 @@ import Loading from "../components/Loading"
 export default function FilmDetailsPage() {
   const [film, setFilm] = useState()
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const getFilm = useCallback(async () => {
-    setLoading(true)
 
-    const data = await StarwarsAPI.getFilm(id)
-    setFilm(data)
-    setLoading(false)
-  }, [id])
 
   useEffect(() => {
+    const getFilm = async () => {
+      setLoading(true)
+      
+      try {
+        const data = await StarwarsAPI.getFilm(id)
+        setFilm(data)
+        setLoading(false)
+
+      } catch (err) {
+        setLoading(false)
+        setError(err)
+        console.log(err.message)
+      }
+    }
+
     getFilm(id)
-  }, [getFilm, id])
+  }, [id])
   
   return (
     <>
 
-    {loading && <Loading />}
+    {loading && !error && <Loading />}
 
-    {film === 404 && <NotFound />}
+    {error && <NotFound />}
 
     <div className='d-flex flex-wrap justify-content-center'>
       {film && 
