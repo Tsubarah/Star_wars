@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import StarwarsAPI from '../services/StarwarsAPI'
 import { Link, useSearchParams } from 'react-router-dom'
 import NotFound from './NotFound'
 import Loading from '../components/Loading'
+import { getIdFromUrl } from '../helpers'
 
 export default function Characters() {
   const [characters, setCharacters] = useState([])
@@ -10,7 +11,7 @@ export default function Characters() {
   const [page, setPage] = useState(1)
   const [searchParams, setSearchparams] = useSearchParams()
   
-  const fetchCharacters = async () => {
+  const fetchCharacters = useCallback(async () => {
     setLoading(true)
 
     const data = await StarwarsAPI.getCharacters(page)
@@ -18,13 +19,12 @@ export default function Characters() {
     setLoading(false)
     
     setSearchparams({ page: page })
-  }
+  }, [page, setSearchparams])
 
   useEffect(() => {
     fetchCharacters()
-    console.log(characters)
     
-  }, [page])
+  }, [searchParams, fetchCharacters, page])
 
   return (
     <>
@@ -49,7 +49,7 @@ export default function Characters() {
                 <p className="card-text">Gender: {character.gender}</p>
                 <p className="card-text">Born: {character.birth_year}</p>
                 <p className="card-text">In: {character.films.length} films</p>
-                <Link to={`/characters/${index + 1}`} 
+                <Link to={`/characters/${getIdFromUrl(character.url)}`}
                   type="button" 
                   className="btn btn-light pt-1 pb-1"
                   >Read More
